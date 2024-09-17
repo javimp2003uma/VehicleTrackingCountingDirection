@@ -34,7 +34,7 @@ def main():
         confidence_threshold = args.confidence_th,
         workingDirectory = cd
     )
-    processingObject.process_video()
+    processingObject.process_video(cd)
 
 if __name__ == "__main__":
     main()

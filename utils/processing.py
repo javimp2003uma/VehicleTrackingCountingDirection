@@ -19,6 +19,7 @@ class Processor:
         confidence_threshold: float = 0.3
     ) -> None:
         self.model = YOLO(source_weights_path)
+        self.model.to('cuda')
         self.source_video_path = source_video_path
         self.conf_threshold = confidence_threshold
         self.workingDirectory = workingDirectory
@@ -30,8 +31,7 @@ class Processor:
 
         pol = sv.PolygonZone(
             polygon=POLYGONS[0],
-            frame_resolution_wh=self.video_info.resolution_wh,
-            triggering_anchors=sv.Position.CENTER
+            frame_resolution_wh=self.video_info.resolution_wh
         )
         self.zones_in = [pol]
 
@@ -54,6 +54,9 @@ class Processor:
             detections_in_zone = detections[zIn.trigger(detections=detections)]
             detections_in_zones.append(detections_in_zone)
 
+        # detections is just Detections object
+        # detections_in_zones is a List<Detections>, but just 1 element
+        
         detections = self.detections_manager.update(
             detections, detections_in_zones
         )
@@ -97,7 +100,7 @@ class Processor:
         return annotated_frame
 
 
-    def process_video(self, weights_path, video_path, confidence_th, workingDirectory):
+    def process_video(self, workingDirectory):
         """
         Process the video to detect and count vehicles, and determine their directions.
 
@@ -111,10 +114,10 @@ class Processor:
             Confidence threshold for the model to filter weak detections.
         """
         
-        frameGenerator = sv.get_video_frames_generator(video_path)
+        frameGenerator = sv.get_video_frames_generator(self.source_video_path)
 
         output_video_path = f"{workingDirectory}/output_video.mp4"
-        output_video_info = sv.VideoInfo.from_video_path(output_video_path)
+        output_video_info = sv.VideoInfo.from_video_path(self.source_video_path)
 
         with sv.VideoSink(output_video_path, output_video_info) as sink:
             for frame in tqdm(frameGenerator, total=output_video_info.total_frames):

@@ -29,8 +29,12 @@ class DetMan:
         detections_all: sv.Detections,
         detections_in_zone: sv.Detections,
     ) -> sv.Detections:
+        
+        # detections_all is just Detections object
+        # detections_in_zones is a List<Detections>, just 1 element
+
         # Track objects entering the zone
-        for tracker_id in detections_in_zone.tracker_id:
+        for tracker_id in detections_in_zone[0].tracker_id:
             self.tracker_id_to_zone_status[tracker_id] = True
             self.count_inside += 1
 
