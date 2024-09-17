@@ -38,3 +38,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# python3 inference.py --weights_path data/vehiclesTraffic.pt --video_path data/vehiclesTraffic1.mp4 --confidence_th 0.3

@@ -3,7 +3,7 @@ import numpy as np
 from tqdm import tqdm
 from ultralytics import YOLO
 import supervision as sv
-from managerDetecs import DetMan
+from utils.managerDetecs import DetMan
 
 POLYGONS = [
     np.array([[2038, 444], [2775, 1108], [2062, 1963], [1332, 1211]])
