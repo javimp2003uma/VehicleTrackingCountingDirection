@@ -31,11 +31,12 @@ class Processor:
 
         pol = sv.PolygonZone(
             polygon=POLYGONS[0],
-            frame_resolution_wh=self.video_info.resolution_wh
+            frame_resolution_wh=self.video_info.resolution_wh,
+            triggering_anchors=sv.Position.CENTER
         )
         self.zones_in = [pol]
 
-        self.box_annotator = sv.BoxAnnotator()
+        self.box_annotator = sv.BoxAnnotator(color=COLORS)
         self.trace_annotator = sv.TraceAnnotator(
             position=sv.Position.CENTER, trace_length=100, thickness=2
         )
@@ -46,6 +47,7 @@ class Processor:
         self.countFrames += 1
         results = self.model(frame, verbose=False, conf=self.conf_threshold)[0]
         detections = sv.Detections.from_ultralytics(results)
+        # this add additional id for the detections
         detections = self.tracker.update_with_detections(detections)
 
         detections_in_zones = []
