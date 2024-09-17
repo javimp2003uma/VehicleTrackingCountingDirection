@@ -15,4 +15,4 @@ gdown -O "$DIR/data/vehiclesTraffic1.mp4" "https://drive.google.com/uc?id=1vhWHM
 gdown -O "$DIR/data/vehiclesTraffic2.mov" "https://drive.google.com/uc?id=1qadBd7lgpediafCpL_yedGjQPk-FLK-W"
 
 # Download the traffic_analysis.pt file from Google Drive
-# gdown -O "$DIR/data/vehiclesTraffic.pt" "model"
+gdown -O "$DIR/data/vehiclesTraffic.pt" "https://drive.google.com/uc?id=1y-IfToCjRXa3ZdC1JpnKRopC7mcQW-5z"

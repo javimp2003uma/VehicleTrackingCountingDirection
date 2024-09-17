@@ -1,3 +1,5 @@
-opencv-python
-numpy
-pillow
+supervision
+gdown
+inference
+ultralytics
+tqdm
