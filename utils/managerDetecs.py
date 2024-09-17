@@ -1,4 +1,4 @@
-from typing import Dict, Tuple
+from typing import List, Dict, Tuple
 import numpy as np
 import supervision as sv
 
@@ -27,7 +27,7 @@ class DetMan:
     def update(
         self,
         detections_all: sv.Detections,
-        detections_in_zone: sv.Detections,
+        detections_in_zone: List[sv.Detections],
     ) -> sv.Detections:
         
         # detections_all is just Detections object
@@ -37,6 +37,10 @@ class DetMan:
         for tracker_id in detections_in_zone[0].tracker_id:
             self.tracker_id_to_zone_status[tracker_id] = True
             self.count_inside += 1
+
+        nonInzone = [item for item in detections_all.tracker_id if item not in detections_in_zone[0].tracker_id]
+        for i in nonInzone:
+            self.tracker_id_to_zone_status[i] = False
 
         # Track objects leaving the zone
         for tracker_id in detections_all.tracker_id:

@@ -19,7 +19,7 @@ class Processor:
         confidence_threshold: float = 0.3
     ) -> None:
         self.model = YOLO(source_weights_path)
-        self.model.to('cuda')
+        #self.model.to('cuda')
         self.source_video_path = source_video_path
         self.conf_threshold = confidence_threshold
         self.workingDirectory = workingDirectory
@@ -51,12 +51,14 @@ class Processor:
         detections_in_zones = []
 
         for _, zIn in enumerate(self.zones_in):
+            # here I can print the detections (whole ones) and detections_in_zone to see if its working
             detections_in_zone = detections[zIn.trigger(detections=detections)]
             detections_in_zones.append(detections_in_zone)
 
-        # detections is just Detections object
+        # detections is just a Detections object
         # detections_in_zones is a List<Detections>, but just 1 element
         
+        # We call the detection manager with all detections and detections in rectangle (Detections and List<Detections>)
         detections = self.detections_manager.update(
             detections, detections_in_zones
         )
