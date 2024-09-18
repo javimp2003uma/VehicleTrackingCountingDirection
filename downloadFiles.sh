@@ -16,3 +16,6 @@ gdown -O "$DIR/data/vehiclesTraffic2.mov" "https://drive.google.com/uc?id=1qadBd
 
 # Download the traffic_analysis.pt file from Google Drive
 gdown -O "$DIR/data/vehiclesTraffic.pt" "https://drive.google.com/uc?id=1y-IfToCjRXa3ZdC1JpnKRopC7mcQW-5z"
+
+# Download the fraffic_analysis_overtrained.pt file from Google drive
+gdown -O "$DIR/data/vehiclesTraffic_overtrained.pt" "https://drive.google.com/uc?id=1dajaD2vw32v2pfPNgIW2SP1RgNOe3Krv"
