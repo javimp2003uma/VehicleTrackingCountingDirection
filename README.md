@@ -2,7 +2,7 @@
 
 This project is focused on detecting, tracking, counting vehicles, and determining their direction of movement in video footage using YOLO and ByteTrack.
 
-![](https://blog.roboflow.com/content/images/2024/04/tracking-counting-yolov8.png)
+[![See the video](https://raw.githubusercontent.com/username/repository/branch/path/to/thumbnail.jpg)](https://raw.githubusercontent.com/javimp2003uma/VehicleTrackingCountingDirection/blob/main/officialVideo.mp4)
 
 ## Project Overview
 
