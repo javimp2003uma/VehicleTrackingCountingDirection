@@ -158,7 +158,7 @@ class VideoProcessor:
             result = self.model(x, verbose=False, conf=self.conf_threshold, iou=self.iou_threshold)[0]
             return sv.Detections.from_ultralytics(result)
 
-        slicer = sv.InferenceSlicer(callback=callback)
+        slicer = sv.InferenceSlicer(slice_wh=(640,640),callback=callback)
 
         detections = slicer(frame)
 

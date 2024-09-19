@@ -13,17 +13,17 @@ COLORS = sv.ColorPalette.from_hex(["#E6194B", "#3CB44B", "#FFE119", "#3C76D1"])
 
 
 ZONE_IN_POLYGONS = [
-    np.array([[1304, 428], [1591, 124], [1895, 411], [1608, 715]]),
-    np.array([[2550, 768], [2837, 464], [3141, 751], [2854, 1055]]),
-    np.array([[2255, 1867], [2542, 1563], [2846, 1850], [2559, 2154]]),
-    np.array([[956, 1506], [1243, 1202], [1547, 1489], [1260, 1793]]),
+    np.array([[652, 214], [795, 62], [947, 205], [804, 357]]),
+    np.array([[1275, 384], [1418, 232], [1570, 375], [1427, 527]]),
+    np.array([[1127, 933], [1271, 781], [1423, 925], [1279, 1077]]),
+    np.array([[478, 753], [621, 601], [773, 744], [630, 896]]),
 ]
 
 ZONE_OUT_POLYGONS = [
-    np.array([[1245, 1111], [1532, 807], [1228, 520], [941, 824]]),
-    np.array([[2104, 328], [2391, 24], [2695, 311], [2408, 615]]),
-    np.array([[2604, 1508], [2891, 1204], [3195, 1491], [2908, 1795]]),
-    np.array([[1309, 1862], [1596, 1558], [1900, 1845], [1613, 2149]]),
+    np.array([[622, 555], [766, 403], [614, 260], [470, 412]]),
+    np.array([[1052, 164], [1195, 12], [1347, 155], [1204, 307]]),
+    np.array([[1302, 754], [1445, 602], [1597, 745], [1454, 897]]),
+    np.array([[654, 931], [798, 779], [950, 922], [806, 1074]]),
 ]
 
 
@@ -160,7 +160,7 @@ class VideoProcessor:
             frame, confidence=self.conf_threshold, iou_threshold=self.iou_threshold
         )[0]
         detections = sv.Detections.from_inference(results)
-        detections.class_id = np.zeros(len(detections))
+
         detections = self.tracker.update_with_detections(detections)
 
         detections_in_zones = []
@@ -175,6 +175,7 @@ class VideoProcessor:
         detections = self.detections_manager.update(
             detections, detections_in_zones, detections_out_zones
         )
+
         return self.annotate_frame(frame, detections)
 
 
@@ -185,7 +186,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--model_id",
-        default="car-detect-zefse/2",
+        default="skyview-vehicle/4",
         help="Roboflow model ID",
         type=str,
     )
