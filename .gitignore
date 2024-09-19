@@ -2,3 +2,6 @@ venv/
 data/
 output_video.mp4
 ultralytics_rc_output/
+PROJECT/
+yolov8m-obb.pt
+yolov8s-obb.pt
