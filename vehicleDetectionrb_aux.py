@@ -133,6 +133,34 @@ class VideoProcessor:
                 annotated_frame, zone_out.polygon, COLORS.colors[i]
             )
 
+        height, width, _ = annotated_frame.shape
+
+        # Define the size of the boxes
+        box_size = 150  # width and height of the square boxes
+        font = cv2.FONT_HERSHEY_SIMPLEX  # Font for text
+        font_scale = 1
+        color = (255, 255, 255)  # Red color in BGR
+        thickness = 2  # Thickness for both text and box lines
+
+        # Coordinates for the four corners: North-West, South-West, North-East, South-East
+        corners = {
+            'North': (10, 10),
+            'East': (width - box_size - 10, 10),
+            'South': (width - box_size - 10, height - box_size - 10),
+            'West': (10, height - box_size - 10)
+        }
+
+        # Draw the boxes and text in each corner
+        for direction, (x, y) in corners.items():
+            # Draw the rectangle
+            cv2.rectangle(annotated_frame, (x, y), (x + box_size, y + box_size), color, -1)
+            # Put the direction text in the superior part of the box
+            text_size = cv2.getTextSize(direction, font, font_scale, thickness)[0]
+            text_x = x + (box_size - text_size[0]) // 2  # Center horizontally
+            text_y = y + text_size[1] + 5  # Position near the top, with 5 pixels margin from the top
+            cv2.putText(annotated_frame, direction, (text_x, text_y), font, font_scale, (0, 0, 0), thickness)
+            
+
         labels = [f"#{tracker_id}" for tracker_id in detections.tracker_id]
         annotated_frame = self.trace_annotator.annotate(annotated_frame, detections)
         annotated_frame = self.box_annotator.annotate(annotated_frame, detections)
@@ -145,7 +173,6 @@ class VideoProcessor:
             if zone_out_id in self.detections_manager.counts:
                 counts = self.detections_manager.counts[zone_out_id]
                 for i, zone_in_id in enumerate(counts):
-                    print(f"The actual label is: {i}")
                     count = len(self.detections_manager.counts[zone_out_id][zone_in_id])
                     text_anchor = sv.Point(x=zone_center.x, y=zone_center.y + 40 * i)
                     annotated_frame = sv.draw_text(
@@ -154,6 +181,22 @@ class VideoProcessor:
                         text_anchor=text_anchor,
                         background_color=COLORS.colors[zone_in_id],
                     )
+
+                    _, actualValue = list(corners.items())[zone_out_id]
+                    x = actualValue[0]
+                    y = actualValue[1]
+                    
+                    text_size = cv2.getTextSize(str(count), font, font_scale, thickness)[0]
+                    #text_x = x + (box_size - text_size[0]) // 2     # Center horizontally
+                    text_x = x + 10 + i * (text_size[0] + 10)
+                    text_y = (y + box_size) - text_size[1] - 5      # Position near the bottom, with 5 pixels margin from it
+
+                    print(f"printing count: {count} in {text_x}, {text_y}")
+                    color = COLORS.colors[zone_in_id]
+
+                    #cv2.putText(annotated_frame, str(count), (text_x, text_y), font, font_scale, (255, 255, 255), thickness)
+                    cv2.putText(annotated_frame, str(count), (text_x, text_y), font, font_scale, (color.b, color.g, color.r), thickness)
+
 
         return annotated_frame
 
